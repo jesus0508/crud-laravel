@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('tittle','Crear')
 @section('main')
-    <form action="/trainers" method="post">
+    <form action="/employees" method="post">
         @csrf
         <div class="form-group">
             <label for="first_name">Nombre: </label>

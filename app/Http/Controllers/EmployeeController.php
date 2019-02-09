@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Employee;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -14,7 +14,8 @@ class EmployeeController extends Controller
     public function index()
     {
         //
-        return view('employees.index');
+        $employees=Employee::all();
+        return view('employees.index',compact('employees'));
     }
 
     /**
@@ -37,6 +38,14 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         //
+        $employee=new Employee;
+
+        $employee->first_name=$request->input('first_name');
+        $employee->last_name=$request->input('last_name');
+        $employee->email=$request->input('email');
+        $employee->phone_number=$request->input('phone_number');
+        $employee->save();
+        return redirect()->route('employees.index');
     }
 
     /**
@@ -48,6 +57,8 @@ class EmployeeController extends Controller
     public function show($id)
     {
         //
+        $employee=Employee::find($id);
+        return view('employees.show',compact('employee'));
     }
 
     /**
@@ -59,6 +70,8 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         //
+        $employee=Employee::find($id);
+        return view('employees.edit',compact('employee'));
     }
 
     /**
@@ -71,6 +84,13 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $employee=Employee::find($id);
+        $employee->first_name = $request->get('first_name');
+        $employee->last_name=$request->get('last_name');
+        $employee->email=$request->get('email');
+        $employee->phone_number=$request->get('phone_number');
+        $employee->save();
+        return redirect()->route('employees.index');
     }
 
     /**
@@ -82,5 +102,9 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         //
+        $employee=Employee::find($id);
+        $employee->delete();
+
+        return redirect()->route('employees.index');
     }
 }

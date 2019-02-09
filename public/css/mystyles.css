@@ -1,3 +1,11 @@
 .container{
     margin-top: 100px;
 }
+
+.card-title{
+    font-size: 1.4rem;
+}
+
+.card-subtitle{
+    font-size: 1.25rem;
+}
