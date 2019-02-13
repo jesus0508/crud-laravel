@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    CRUD desde la Rama develop
                 </div>
 
                 <div class="links">
