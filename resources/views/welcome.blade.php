@@ -81,11 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-<<<<<<< HEAD
-                    CRUD Laravel
-=======
                     CRUD desde la Rama develop
->>>>>>> origin/develop
                 </div>
                 <p>
                     Agregando un parrafo desde la rama develop
