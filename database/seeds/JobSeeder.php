@@ -13,11 +13,17 @@ class JobSeeder extends Seeder
     public function run()
     {
         //Para evitar el problema con los registros unicos hago un truncate antes
-        DB::table('jobs')->truncate();
+        //DB::table('jobs')->truncate();
 
         //
         DB::table('jobs')->insert([
-            'title'=>'BackEnd',
+            'title'=>'Back-End',
+            'max_salary'=>8000,
+            'min_salary'=>1500
+        ]);
+
+        App\Job::create([
+            'title'=>'Front-End',
             'max_salary'=>8000,
             'min_salary'=>1500
         ]);
