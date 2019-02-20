@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('tittle','Crear')
 @section('main')
-    <form action="/employees" method="post">
+<form action="{{route('employees.store')}}" method="post">
         @csrf
         <div class="form-group">
             <label for="first_name">Nombre: </label>
