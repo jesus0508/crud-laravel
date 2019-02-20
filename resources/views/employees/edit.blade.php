@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('title','Editar')
 @section('main')
-<form action="/employees/{{$employee->id}}" method="post">
+<form action="{{route('employees.update',$employee->id)}}" method="post">
         @method('PUT')
         @csrf
         <div class="form-group">
@@ -25,7 +25,8 @@
             <select name="job_id" id="jobs" class="form-control" required>
                 <option value="">--Escoja la profesion-</option>  
                 @foreach ($jobs as $job)
-                    <option value="{{$job->id}}" @if ($employee->job->id==$job->id)
+                    <option value="{{$job->id}}"
+                    @if ($employee->job->id==$job->id)
                         selected
                     @endif>
                         {{$job->title}}
@@ -39,9 +40,9 @@
                 <option value="">--Escoja el departamento-</option>  
                 @foreach ($departments as $department)
                     <option value="{{$department->id}}"
-                        @if ($employee->department->id==$department->id)
-                            selected
-                        @endif>
+                    @if ($employee->department->id==$department->id)
+                        selected
+                    @endif>
                         {{$department->name}}
                     </option>   
                 @endforeach

@@ -120,4 +120,12 @@ class EmployeeController extends Controller
 
         return redirect()->route('employees.index');
     }
+
+    public function findOne($name)
+    {
+        if(isset($name)){
+            $employees=Employee::where('first_name',$name)->get()->toJson();
+            return $employees;
+        }
+    }
 }
