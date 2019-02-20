@@ -83,6 +83,9 @@
                 <div class="title m-b-md">
                     CRUD desde la Rama develop
                 </div>
+                <p>
+                    Agregando un parrafo desde la rama develop
+                </p>
 
                 <div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>
