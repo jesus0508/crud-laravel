@@ -1,3 +1,31 @@
+//Modal Mostrar
+$('#show-modal').click((e)=>{
+    e.preventDefault()
+    $('#showModal').modal('show')
+})
+
+
+//Modal Editar
+$('#edit-modal').click((e)=>{
+    e.preventDefault()
+    $('#editModal').modal('show')
+})
+
+//Modal Crear
+$('#create-modal').click((e)=>{
+    e.preventDefault()
+    $('.form-horizontal').trigger("reset")
+    $('#createModal').modal('show')
+})
+
+//Modal Delete
+$('#edit-modal').click((e)=>{
+    e.preventDefault()
+    $('#editModal').modal('show')
+})
+
+
+/*
 $('#btnSearch').click((e) => {
     e.preventDefault()
     let name = $('#name').val();
@@ -32,4 +60,4 @@ const buildTable = (response) => {
 $('#delete').click((e)=>{
     e.preventDefault()
     let name=$('')
-})
+})*/

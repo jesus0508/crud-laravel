@@ -1,40 +1,34 @@
-@extends('layouts.layout')
-@section('tittle','Crear')
-@section('main')
-<form action="{{route('employees.store')}}" method="post">
+@extends('employees.modal-layout')
+@section('modal-title','Crear')
+@section('modal-body')
+<form class="form-horizontal" role="form">
         @csrf
         <div class="form-group">
             <label for="first_name">Nombre: </label>
-            <input class="form-control" name="first_name" type="text">
+            <input id="first_name" class="form-control" name="first_name" type="text">
         </div>
         <div class="form-group">
             <label for="last_name">Apellidos: </label>
-            <input class="form-control" name="last_name" type="text">
+            <input id="last_name" class="form-control" name="last_name" type="text">
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input class="form-control" type="email" name="email">
+            <input id="email" class="form-control" type="email" name="email">
         </div>
         <div class="form-group">
             <label for="phone_number">Telefono</label>
-            <input class="form-control" type="number" name="phone_number">
+            <input id="phone_number" class="form-control" type="number" name="phone_number">
         </div>
         <div class="form-group">
             <label for="jobs">Titulo</label>
             <select name="job_id" id="jobs" class="form-control" required>
-                <option value="">--Escoja la profesion-</option>  
-                @foreach ($jobs as $job)
-                    <option value="{{$job->id}}">{{$job->title}}</option>   
-                @endforeach
+                <option value="">--Escoja la profesion--</option>  
             </select>
         </div>
         <div class="form-group">
             <label for="departments">Departamento</label>
             <select name="department_id" id="departments" class="form-control" required>
-                <option value="">--Escoja el departamento-</option>  
-                @foreach ($departments as $department)
-                    <option value="{{$department->id}}">{{$department->name}}</option>   
-                @endforeach
+                <option value="">--Escoja el departamento--</option>  
             </select>
         </div>
         <div class="form-group">
