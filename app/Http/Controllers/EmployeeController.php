@@ -42,11 +42,12 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEmployeeRequest $request)
+    //StoreEmployeeRequest
+    public function store(Request $request)
     {
         //
         $employee=new Employee();
-
+       
         $employee->first_name=$request->input('first_name');
         $employee->last_name=$request->input('last_name');
         $employee->email=$request->input('email');
@@ -54,7 +55,8 @@ class EmployeeController extends Controller
         $employee->job_id=$request->input('job_id');
         $employee->department_id=$request->input('department_id');
         $employee->save();
-        return redirect()->route('employees.index');
+
+        return response()->json($employee);
     }
 
     /**

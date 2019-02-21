@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Department;
 use Illuminate\Http\Request;
+use App\Job;
 
-class DepartmentController extends Controller
+class JobController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class DepartmentController extends Controller
     public function index()
     {
         //
-        $departments=Department::all();
-        return $departments;
+        $jobs=Job::all();
+        return $jobs;
     }
 
     /**
@@ -43,10 +43,10 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Department  $Department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Department $Department)
+    public function show($id)
     {
         //
     }
@@ -54,10 +54,10 @@ class DepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Department  $Department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Department $Department)
+    public function edit($id)
     {
         //
     }
@@ -66,10 +66,10 @@ class DepartmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Department  $Department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $Department)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -77,10 +77,10 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Department  $Department
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Department $Department)
+    public function destroy($id)
     {
         //
     }

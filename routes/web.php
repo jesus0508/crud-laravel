@@ -17,3 +17,5 @@ Route::get('/', function () {
 
 Route::get('/employees/{name}','EmployeeController@findOne')->name('employees.findOne')->where('name', '[A-Za-z]+');;
 Route::resource('/employees','EmployeeController');
+Route::get('/jobs','JobController@index')->name('jobs.index');
+Route::get('/departments','DepartmentController@index')->name('departments.index');

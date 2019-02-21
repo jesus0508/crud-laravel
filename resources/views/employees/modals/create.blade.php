@@ -1,8 +1,7 @@
 @extends('employees.modal-layout')
 @section('modal-title','Crear')
 @section('modal-body')
-<form class="form-horizontal" role="form">
-        @csrf
+<form id="createForm" class="form-horizontal" role="form">
         <div class="form-group">
             <label for="first_name">Nombre: </label>
             <input id="first_name" class="form-control" name="first_name" type="text">
@@ -32,7 +31,7 @@
             </select>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button id="store" type="submit" class="btn btn-primary">Guardar</button>
         </div>
     </form>
-@endsection    
+@endsection
