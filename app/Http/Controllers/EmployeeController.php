@@ -56,7 +56,10 @@ class EmployeeController extends Controller
         $employee->department_id=$request->input('department_id');
         $employee->save();
 
-        return response()->json($employee);
+        return response()->json(['employee'=>$employee,
+            'department'=>$employee->department,
+            'job'=>$employee->job
+        ]);
     }
 
     /**
@@ -69,7 +72,11 @@ class EmployeeController extends Controller
     {
         //
         //$employee=Employee::find($id);
-        return view('employees.show',compact('employee'));
+        return response(['employee'=>$employee,
+            'department'=>$employee->department,
+            'job'=>$employee->job
+        ]);
+        //return view('employees.show',compact('employee'));
     }
 
     /**
@@ -119,8 +126,8 @@ class EmployeeController extends Controller
         //
         //$employee=Employee::find($id);
         $employee->delete();
-
-        return redirect()->route('employees.index');
+        return response()->json($employee);
+        //return redirect()->route('employees.index');
     }
 
     public function findOne($name)

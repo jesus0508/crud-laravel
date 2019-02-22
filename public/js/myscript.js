@@ -1,27 +1,18 @@
-//Modal Mostrar
-$('#show-modal').click((e)=>{
-    e.preventDefault()
-    getEmployee(id)
-    getDepartments()
-    getJobs()
-})
 
 
-//Modal Editar
-$('#edit-modal').click((e)=>{
-    e.preventDefault()
-    getEmployee(id)
-    getDepartments()
-    getJobs()
-})
-
-//Modal Crear
+/**
+ * Cargar modal para crear un nuevo Empleado
+ */
 $('#create-modal').click((e)=>{
     e.preventDefault()
-    getDepartments()
-    getJobs()
+    $('#createForm').trigger('reset')
+    getDepartments('#departments')
+    getJobs('#jobs')
 })
 
+/**
+ * Guardar un empleado
+ */
 $('#store').click((e)=>{
     e.preventDefault()
     $.ajax({
@@ -37,64 +28,178 @@ $('#store').click((e)=>{
             'department_id' : $('#departments').val(),
         },
         success: (data)=>{
-            $('#createForm').trigger('reset')
-            sendMessage(data)
-            //$('#employeeTable').prepend("<tr class='item" + data.id + "'><td class='col1'>" + data.id + "</td><td>" + data.title + "</td><td>" + data.content + "</td><td class='text-center'><input type='checkbox' class='new_published' data-id='" + data.id + " '></td><td>Just now!</td><td><button class='show-modal btn btn-success' data-id='" + data.id + "' data-title='" + data.title + "' data-content='" + data.content + "'><span class='glyphicon glyphicon-eye-open'></span> Show</button> <button class='edit-modal btn btn-info' data-id='" + data.id + "' data-title='" + data.title + "' data-content='" + data.content + "'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-id='" + data.id + "' data-title='" + data.title + "' data-content='" + data.content + "'><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
+            sendMessage(data,'Empleado Registrado satifactoriamente')
+            $('#employeeTable').append(
+                `<tr id="row-${data.employee.id}">
+                <td class='col1'>${$('#employeeTable').last().text().parseInt()+1}</td>
+                <td>${data.employee.first_name}</td>
+                <td>${data.employee.last_name}</td>
+                <td>${data.employee.email}</td>
+                <td>${data.employee.phone_number}</td>
+                <td>${data.department.name}</td>
+                <td>${data.job.title}</td>
+                <td>
+                    <button type="button" class="btn btn-info show-modal" data-toggle="modal" data-target="#showModal" data-id="${data.employee.id}">
+                        <span class="glyphicon glyphicon-eye-open"></span>Ver
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-secondary edit-modal" data-toggle="modal" data-target="#editModal" data-id="${data.employee.id}"> 
+                        <span class="glyphicon glyphicon-edit"></span>Editar
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger delete-modal" data-toggle="modal" data-target="#deleteModal" data-id="${data.employee.id}">
+                        <span class="glyphicon glyphicon-trash"></span>Eliminar
+                    </button>
+                </td>
+                </tr>`
+            )
         }
     })
 })
 
-//Modal Delete
-$('#edit-modal').click((e)=>{
-    e.preventDefault()
-    console.log(getEmployee($('destroy').data('id')))
-    $('#deleteModal').modal('show')
+/**
+ * Cargar modal para editar un Empleado
+ */
+$(document).on('click','.edit-modal',function(){
+    let idEmployee=$(this).data('id')
+    $.ajax({
+        type:'GET',
+        url:`./employees/${idEmployee}`,
+        success:(data)=>{
+            $('#first_name_edit').val(data.employee.first_name)
+            $('#last_name_edit').val(data.employee.last_name)
+            $('#email_edit').val(data.employee.email)
+            $('#phone_number_edit').val(data.employee.phone_number)
+            $('#update').data('id',idEmployee)
+            getDepartments('#departments_edit')
+            getJobs('#jobs_edit')
+            $('#editModal').modal('show')
+        }
+    })
 })
 
-function getDepartments(){
+$('#update').click(function(e){
+    e.preventDefault()
+    let idEmployee=$(this).data('id')
+    $.ajax({
+        type: 'PUT',
+        url:`./employees/${idEmployee}`,
+        data:{
+            '_token': $('input[name=_token]').val(),
+            'first_name' : $(`#first_name_edit`).val(),
+            'last_name' : $('#last_name_edit').val(),
+            'email' : $('#email_edit').val(),
+            'phone_number' : $('#phone_number_edit').val(),
+            'job_id' : $('#jobs_edit').val(),
+            'department_id' : $('#departments_edit').val(),
+        },
+        success: (data)=>{
+            $('#createForm').trigger('reset')
+            sendMessage(data,'Empleado actualizado satisfactoriamente')
+        }
+    })
+})
+
+/**
+ * Cargar modal para mostrar un Empleado
+ */
+$(document).on('click','.show-modal',function(){
+    let idEmployee=$(this).data('id')
+    $.ajax({
+        type:'GET',
+        url:`./employees/${idEmployee}`,
+        success:(data)=>{
+            $('#full_name').text(`${data.employee.first_name} ${data.employee.last_name}`)
+            $('#email_show').text(data.employee.email)
+            $('#phone_number_show').text(data.employee.phone_number)
+            $('#job_title_show').text(data.job.title)
+            $('#deparment_name_show').text(data.department.name)
+            $('#showModal').modal('show')
+        }
+    })
+})
+
+/**
+ * Cargar modal para eliminar un Empleado
+ */
+$('.delete-modal').click(function(e){
+    e.preventDefault()
+    let idEmployee=$(this).data('id')
+    $('#destroy').data('id',idEmployee)
+})
+
+$('#destroy').click(function(e){
+    e.preventDefault()
+    let idEmployee=$(this).data('id')
+    
+    $.ajax({
+        type: 'POST',
+        url:`./employees/${idEmployee}`,
+        data: {_method: 'delete', _token :$('input[name=_token]').val()},
+        success:(data)=>{
+            sendMessage(data,'Empleado eliminado exitosamente')
+            $(`#row-${idEmployee}`).remove()
+            $('.colIndex').each(function (index) {
+                $(this).html(index+1);
+            });
+        }
+    })
+})
+
+/**
+ * Carga todos las filas de la tabla Departments
+ * en el combobox
+ * @param id atributo del Combobox(edit or create)
+ * 
+ */
+function getDepartments(id){
     $.ajax({
         type: 'GET',
         url:'./departments',
         success:(departments)=>{
+            $(id).empty();
+            $(id).append(`<option value="">--Escoja el departamento--</option>`)
             departments.forEach(department => {
-                $('#departments').append(`<option value="${department.id}">${department.name}</option>`)
+                $(id).append(`<option value="${department.id}">${department.name}</option>`)
             });
         }
     })
 }
 
-function getJobs(){
+/**
+ * Carga todos las filas de la tabla Jobs
+ * en el combobox 
+ * @param id atributo del Combobox(edit or create)
+ * 
+ */
+function getJobs(id){
     $.ajax({
         type: 'GET',
         url:'./jobs',
         success: (jobs)=>{
+            $(id).empty();
+            $(id).append(`<option value="">--Escoja el departamento--</option>`)
             jobs.forEach(job=>{
-                $('#jobs').append(`<option value="${job.id}">${job.title}</option>`)
+                $(id).append(`<option value="${job.id}">${job.title}</option>`)
             })
         }
     })
 }
 
-function getEmployee(id){
-    $.ajax({
-        type:'GET',
-        url:`/employees/${id}`,
-        success:(employee)=>{
-            $(`#first_name`).val(employee.first_name)
-            $('#last_name').val(employee.last_name)
-            $('#email').val(employee.email)
-            $('#phone_number').val(employee.phone_number)
-        }
-    })
-}
-
-function sendMessage(data){
+/**
+ * Enviar Notificaciones al usuario
+ */
+function sendMessage(data,message){
     if(data.errors){
-        toastr.error('Error en la validacion!', 'Error Alert', {timeOut: 5000});
+        toastr.error('Ocurrio un Error!', 'Error Alert', {timeOut: 5000});
     }else{
-        toastr.success('Usuario registrado!', 'Success Alert', {timeOut: 5000});
+        toastr.success(message, 'Success Alert', {timeOut: 5000});
     }
 }
+
+
 
 
 /*
